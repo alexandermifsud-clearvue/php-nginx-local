@@ -1,0 +1,14 @@
+{
+  "name": "clearvue/php",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "AlexanderMifsud",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  }
+}
