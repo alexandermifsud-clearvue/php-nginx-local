@@ -30,9 +30,15 @@ RUN apk add --no-cache $PHPIZE_DEPS \
 
 COPY --from=composer:2.2.0 /usr/bin/composer /usr/local/bin/composer
 
-#COPY php.ini /etc/php5/conf.d/50-setting.ini
-#COPY php-fpm.conf /etc/php5/php-fpm.conf
+COPY ./composer.json ./
+RUN composer install --prefer-dist --no-dev --no-progress --no-interaction
 
-EXPOSE 9000
+COPY ./ .
 
-CMD ["php-fpm", "-F"]
+WORKDIR /var/www/html
+
+RUN composer dump-autoload --optimize
+
+#EXPOSE 9000
+#
+#CMD ["php-fpm", "-F"]

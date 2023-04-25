@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  nginx:
+    container_name: nginx-server
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - internal
+    volumes:
+      - .:/var/www/html
+      - ./nginx/conf.d/default.conf:/etc/nginx/sites-available/default.conf
+      - ./nginx/conf.d/default.conf:/etc/nginx/sites-enabled/default.conf
+    depends_on:
+      - php
+
+
+  php:
+    container_name: php-fpm
+    build:
+      context: .
+      dockerfile: ./php-fpm/Dockerfile
+    networks:
+      - internal
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www/html
+      - ./composer.json:/var/www/html/composer.json
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  php-nginx-data:
